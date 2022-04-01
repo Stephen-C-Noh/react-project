@@ -6,7 +6,6 @@
 // look up the package in DefinitelyTyped repository on Github.
 // the packages on DefinitelyTyped are explainations for Typescripts to understand what you have imported.
 
-import { QueryClient } from "react-query";
 import { createGlobalStyle } from "styled-components";
 import Router from "./Router";
 import { ReactQueryDevtools } from "react-query/devtools";
