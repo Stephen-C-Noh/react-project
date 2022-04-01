@@ -58,6 +58,11 @@ function Chart({ coinId }: ChartProps) {
                         stroke: {
                             width: 3,
                         },
+                        tooltip: {
+                            y: {
+                                formatter: (value) => `$ ${value.toFixed(2)}`,
+                            },
+                        },
                     }}
                 />
             )}
