@@ -33,7 +33,7 @@ function Chart({ coinId }: ChartProps) {
             ) : (
                 <ApexChart
                     type="candlestick"
-                    series={[{ data: mappedOhlcvData }]}
+                    series={[{ data: mappedOhlcvData }] as unknown as number[]}
                     height={400}
                     options={{
                         chart: {
