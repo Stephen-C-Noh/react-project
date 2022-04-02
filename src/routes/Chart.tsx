@@ -2,7 +2,7 @@ import { useQuery } from "react-query";
 import { fetchCoinHistory } from "../api";
 import ApexChart from "react-apexcharts";
 
-interface IHistorical {
+export interface IohlcvData {
     time_open: string;
     time_close: string;
     open: number;
@@ -17,53 +17,50 @@ interface ChartProps {
 }
 
 function Chart({ coinId }: ChartProps) {
-    const { isLoading, data } = useQuery<IHistorical[]>(
+    const { isLoading, data } = useQuery<IohlcvData[]>(
         ["ohlcv", coinId],
         () => fetchCoinHistory(coinId),
         { refetchInterval: 10000 }
     );
+    const mappedOhlcvData = data?.map((data: IohlcvData) => ({
+        x: data.time_open,
+        y: [data.open.toFixed(2), data.high.toFixed(2), data.low.toFixed(2), data.close.toFixed(2)],
+    }));
     return (
         <div>
             {isLoading ? (
                 "Loading Chart..."
             ) : (
                 <ApexChart
-                    type="line"
-                    series={[
-                        {
-                            name: "Price",
-                            data: data?.map((price) => price.close) as number[],
-                        },
-                    ]}
+                    type="candlestick"
+                    series={[{ data: mappedOhlcvData }]}
+                    height={400}
                     options={{
                         chart: {
-                            background: "trnasparent",
-                            height: 500,
-                            width: 500,
+                            type: "candlestick",
                             toolbar: {
-                                show: false,
+                                show: true,
+                                tools: {
+                                    download: true,
+                                    pan: false,
+                                    reset: false,
+                                    zoom: false,
+                                    zoomin: false,
+                                    zoomout: false,
+                                },
                             },
                         },
-                        grid: { show: false },
-                        yaxis: { show: false },
 
-                        xaxis: {
-                            categories: data?.map((date) => date.time_close) as string[],
-                            labels: { trim: true, format: "dd/MMM", show: false },
-                            type: "datetime",
-                            axisBorder: { show: false },
-                            axisTicks: { show: false },
+                        title: {
+                            text: "CandleStick Chart",
+                            align: "center",
                         },
-                        theme: {
-                            mode: "dark",
-                        },
-                        stroke: {
-                            width: 3,
-                        },
-                        tooltip: {
-                            y: {
-                                formatter: (value) => `$ ${value.toFixed(2)}`,
-                            },
+                        xaxis: { type: "datetime" },
+                        yaxis: {
+                            labels: { formatter: (value: number) => `$${value.toFixed(2)}` },
+                            axisBorder: { show: true },
+                            axisTicks: { show: true },
+                            tooltip: { enabled: true },
                         },
                     }}
                 />
