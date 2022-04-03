@@ -1,20 +1,7 @@
 import { useQuery } from "react-query";
 import { fetchCoinHistory } from "../api";
+import { ChartProps, IohlcvData } from "../interfaces";
 import ApexChart from "react-apexcharts";
-
-export interface IohlcvData {
-    time_open: string;
-    time_close: string;
-    open: number;
-    high: number;
-    low: number;
-    close: number;
-    volume: number;
-    market_cap: number;
-}
-interface ChartProps {
-    coinId: string;
-}
 
 function Chart({ coinId }: ChartProps) {
     const { isLoading, data } = useQuery<IohlcvData[]>(
@@ -34,32 +21,45 @@ function Chart({ coinId }: ChartProps) {
                 <ApexChart
                     type="candlestick"
                     series={[{ data: mappedOhlcvData }] as unknown as number[]}
-                    height={400}
+                    height={350}
+                    width={450}
                     options={{
+                        theme: {
+                            mode: "dark",
+                            palette: "palette1",
+                            monochrome: {
+                                enabled: false,
+                                color: "#255aee",
+                                shadeTo: "light",
+                                shadeIntensity: 0.65,
+                            },
+                        },
+                        grid: {
+                            show: false,
+                        },
                         chart: {
                             type: "candlestick",
                             toolbar: {
-                                show: true,
-                                tools: {
-                                    download: true,
-                                    pan: false,
-                                    reset: false,
-                                    zoom: false,
-                                    zoomin: false,
-                                    zoomout: false,
-                                },
+                                show: false,
                             },
+                            background: "transparent",
                         },
 
                         title: {
-                            text: "CandleStick Chart",
+                            text: "Price in last 2 weeks",
                             align: "center",
                         },
-                        xaxis: { type: "datetime" },
+                        xaxis: {
+                            type: "datetime",
+                            labels: { show: false },
+                            axisBorder: { show: false },
+                            axisTicks: { show: false },
+                        },
                         yaxis: {
+                            show: false,
                             labels: { formatter: (value: number) => `$${value.toFixed(2)}` },
-                            axisBorder: { show: true },
-                            axisTicks: { show: true },
+                            axisBorder: { show: false },
+                            axisTicks: { show: false },
                             tooltip: { enabled: true },
                         },
                     }}

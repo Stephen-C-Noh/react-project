@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { fetchCoins } from "../api";
+import { ICoin } from "../interfaces";
 import { Helmet } from "react-helmet";
+import { isPropertySignature } from "typescript";
 
 const Container = styled.div`
     padding: 0px 20px;
@@ -54,15 +55,24 @@ const CoinImg = styled.img`
     margin-right: 10px;
 `;
 
-interface ICoin {
-    id: string;
-    name: string;
-    symbol: string;
-    rank: number;
-    is_new: boolean;
-    is_active: boolean;
-    type: string;
-}
+// const GoBackBtn = styled.div`
+//     height: 70px;
+//     background-color: white;
+//     color: ${(props) => props.theme.bgColor};
+//     margin-bottom: 10px;
+//     border-radius: 15px;
+//     a {
+//         display: flex;
+//         align-items: center;
+//         padding: 20px;
+//         transition: color 0.2s ease-in-out;
+//     }
+//     &:hover {
+//         a {
+//             color: ${(props) => props.theme.accentColor};
+//         }
+//     }
+// `;
 
 function Coins() {
     const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
@@ -78,23 +88,28 @@ function Coins() {
             {isLoading ? (
                 <Loader>Loading...</Loader>
             ) : (
-                <CoinsList>
-                    {data?.slice(0, 100).map((coin) => (
-                        <Coin key={coin.id}>
-                            <Link
-                                to={{
-                                    pathname: `/${coin.id}`,
-                                    state: { name: coin.name },
-                                }}
-                            >
-                                <CoinImg
-                                    src={`https://cryptocurrencyliveprices.com/img/${coin.id}.png`}
-                                />
-                                {coin.name} &rarr;
-                            </Link>
-                        </Coin>
-                    ))}
-                </CoinsList>
+                <>
+                    {/* <GoBackBtn>
+                        <Link to="/">Home</Link>
+                    </GoBackBtn> */}
+                    <CoinsList>
+                        {data?.slice(0, 100).map((coin) => (
+                            <Coin key={coin.id}>
+                                <Link
+                                    to={{
+                                        pathname: `/${coin.id}`,
+                                        state: { name: coin.name },
+                                    }}
+                                >
+                                    <CoinImg
+                                        src={`https://cryptocurrencyliveprices.com/img/${coin.id}.png`}
+                                    />
+                                    {coin.name} &rarr;
+                                </Link>
+                            </Coin>
+                        ))}
+                    </CoinsList>
+                </>
             )}
         </Container>
     );
