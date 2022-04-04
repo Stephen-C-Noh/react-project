@@ -4,7 +4,6 @@ import { useQuery } from "react-query";
 import { fetchCoins } from "../api";
 import { ICoin } from "../interfaces";
 import { Helmet } from "react-helmet";
-import { isPropertySignature } from "typescript";
 
 const Container = styled.div`
     padding: 0px 20px;
@@ -83,7 +82,7 @@ function Coins() {
                 <title>코인</title>
             </Helmet>
             <Header>
-                <Title>코인</Title>
+                <Title></Title>
             </Header>
             {isLoading ? (
                 <Loader>Loading...</Loader>

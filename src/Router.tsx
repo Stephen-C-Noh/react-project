@@ -12,6 +12,7 @@ function Router() {
                 </Route>
                 <Route path="/">
                     <Home />
+                    {/* <Coins /> */}
                 </Route>
             </Switch>
         </BrowserRouter>
