@@ -3,6 +3,9 @@ import styled from "styled-components";
 import bgImg from "../Images/bgImg.jpg";
 import { Link } from "react-router-dom";
 import Todays from "./Todays";
+import { useQuery } from "react-query";
+import { fetchAllTickers } from "../api";
+import { TickersData } from "../interfaces";
 
 const MainWrapper = styled.div`
     font-weight: bold;

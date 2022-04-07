@@ -21,3 +21,11 @@ export async function fetchCoinHistory(coinId: string) {
         )
     ).json();
 }
+
+export async function fetchAllTickers() {
+    return await (await fetch(`${BASE_URL}/tickers`)).json();
+}
+
+export async function fetchOverview() {
+    return await (await fetch(`${BASE_URL}/global`)).json();
+}

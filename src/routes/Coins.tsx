@@ -8,7 +8,7 @@ import bgImg from "../Images/bgImg.jpg";
 
 const CoinsContainer = styled.div`
     padding: 0px 20px;
-    max-width: 480px;
+    max-width: 20vw;
     margin: 0 auto;
     position: relative;
     max-height: 85vh;
